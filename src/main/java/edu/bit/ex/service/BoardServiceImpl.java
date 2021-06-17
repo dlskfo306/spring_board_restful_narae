@@ -14,11 +14,19 @@ import lombok.extern.log4j.Log4j;
 public class BoardServiceImpl implements BoardService{
 
     @Autowired
-    private BoardMapper BoardMapper;
+    private BoardMapper boardMapper;
     
     @Override
     public List<BoardVO> getList() {
         log.info("Service:getList()..");
-        return BoardMapper.getList();
+        return boardMapper.getList();
     }
+
+    @Override
+    public BoardVO get(int bid) {
+ 
+        return boardMapper.get(bid);
+    }
+    
+    
 }

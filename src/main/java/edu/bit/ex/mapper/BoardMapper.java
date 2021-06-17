@@ -9,5 +9,5 @@ import edu.bit.ex.vo.BoardVO;
 @Mapper
 public interface BoardMapper {
     List<BoardVO> getList();
-
+    BoardVO get(int bid);
 }

@@ -1,6 +1,7 @@
 package edu.bit.ex.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +23,9 @@ BSTEP             NUMBER(4)
 BINDENT           NUMBER(4) 
 */
 
-@Getter
+
 @Setter
+@Getter
 @NoArgsConstructor  //디폴트생성자 만들기
 @AllArgsConstructor
 @ToString
@@ -37,5 +39,6 @@ public class BoardVO {
     private int bgroup;
     private int bstep;
     private int bindent;
+    
 
 }
