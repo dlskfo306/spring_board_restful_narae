@@ -45,4 +45,6 @@ public class RestBoardSpring4AfterController {
        return boardService.read(bid);
        
     }
+    
+    
 }
