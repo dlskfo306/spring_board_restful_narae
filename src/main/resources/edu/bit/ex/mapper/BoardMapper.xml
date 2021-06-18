@@ -9,7 +9,7 @@
 	]]>
 	</select>
 
-	<select id="get" resultType="edu.bit.ex.vo.BoardVO">
+	<select id="read" resultType="edu.bit.ex.vo.BoardVO">
 	<![CDATA[
 		select * from mvc_board where bid = #{bid}
 	]]>

@@ -38,11 +38,11 @@ public class RestBoardSpring4AfterController {
     }
 
     @RequestMapping("/rest/{bid}")
-    public BoardVO restBid(@PathVariable("bid") int bid){
+    public BoardVO restGet(@PathVariable("bid") int bid){
        log.info("/rest/{bid}..");
        
     
-       return boardService.get(bid);
+       return boardService.read(bid);
        
     }
 }

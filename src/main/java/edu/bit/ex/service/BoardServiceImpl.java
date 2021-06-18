@@ -23,9 +23,9 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardVO get(int bid) {
+    public BoardVO read(int bid) {
  
-        return boardMapper.get(bid);
+        return boardMapper.read(bid);
     }
     
     
