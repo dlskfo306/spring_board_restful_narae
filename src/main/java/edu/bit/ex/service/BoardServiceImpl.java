@@ -27,6 +27,11 @@ public class BoardServiceImpl implements BoardService{
  
         return boardMapper.read(bid);
     }
-    
- 
+
+    @Override
+    public int remove(int bid) {
+        
+        return boardMapper.delete(bid);
+    }
+
 }
