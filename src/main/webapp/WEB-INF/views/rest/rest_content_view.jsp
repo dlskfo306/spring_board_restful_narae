@@ -11,6 +11,7 @@
 		//https://m.blog.naver.com/PostView.nhn?blogId=moonv11&logNo=220605582547&proxyReferer=https:%2F%2Fwww.google.com%2F
 		$("#updateForm").submit(function(event){
 			
+			//클릭했을때 나머지 이벤트는 내가 컨트롤하겠다.
 			event.preventDefault();
 			
 	        var bname = $("#bName").val();
@@ -27,15 +28,18 @@
 	                btitle: btitle
 	        };
 		    //dataType: 'json',
+		    //RestBoardController에서 @putMapping restUpdate부분
 	        $.ajax({
 			    type : "PUT",
 			    url : $(this).attr("action"),
 			    cache : false,
+			    //json으로 받겠다.
 			    contentType:'application/json; charset=utf-8',
  			    data: JSON.stringify(form), 
 			    success: function (result) {       
 					if(result == "SUCCESS"){
 						//list로 
+						//주소 부분
 						$(location).attr('href', '${pageContext.request.contextPath}/restful/board/')				      	       
 					}					        
 			    },
