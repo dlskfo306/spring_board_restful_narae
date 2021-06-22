@@ -3,9 +3,14 @@ package edu.bit.ex.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,40 +37,89 @@ public class RestBoardController {
 
     @Autowired
     private BoardService boardService;
-    
+
     // 1. list(처음 진입 화면이므로 화면이 깜박여도 상관없으므로 @Controller방식으로 접근 - veiw(화면)를 리턴
     @GetMapping("/board")
-    public ModelAndView list( ModelAndView mav) {
-       mav.setViewName("rest/rest_list"); //restful/rest_list.jsp
-       mav.addObject("list", boardService.getList());
-       
-       return mav;
+    public ModelAndView list(ModelAndView mav) {
+        mav.setViewName("rest/rest_list"); // restful/rest_list.jsp
+        mav.addObject("list", boardService.getList());
+
+        return mav;
     }
-    
-    
+
     /*
-    //위에꺼랑 이거랑 똑같은애임.
-    //근데 위에 @RestController가 있으면 이게 안먹힘.
-    //문법을 완전히 무시하고 단순히 string으로 리턴해버림
-    @GetMapping("/board")
-    public String list(Model model) {
-      
-       model.addAttribute("list", boardService.getList());
-       
-       return "restful/rest_list";
-    }
-    */
-    
-    //조회
+     * //위에꺼랑 이거랑 똑같은애임. //근데 위에 @RestController가 있으면 이게 안먹힘. //문법을 완전히 무시하고 단순히
+     * string으로 리턴해버림
+     * 
+     * @GetMapping("/board") public String list(Model model) {
+     * 
+     * model.addAttribute("list", boardService.getList());
+     * 
+     * return "restful/rest_list"; }
+     */
+
+    // 조회
     @GetMapping("/board/{bid}")
-    public ModelAndView rest_content_view(BoardVO boardVO,ModelAndView mav) {
-       
-       log.info("rest_content_view");
-       
-       mav.setViewName("rest/rest_content_view");  
-       mav.addObject("content_view", boardService.read(boardVO.getBid()));
-       
-       return mav;
+    public ModelAndView rest_content_view(BoardVO boardVO, ModelAndView mav) {
+
+        log.info("rest_content_view");
+
+        mav.setViewName("rest/rest_content_view");
+        mav.addObject("content_view", boardService.read(boardVO.getBid()));
+
+        return mav;
     }
+
+    //restful 관련된 스프링 API
+    //@RestController
+    //@ResponseBody
+    //@RequestBody
+    //ResponseEntity<String>
+    //@PathVariable
+    
+    // 수정 /board/10
+    @PutMapping("/board/{bid}")
+    public ResponseEntity<String> restUpdate(@RequestBody BoardVO boardVO, ModelAndView mav) {
+
+        log.info("restUpdate()..");
+        log.info("boardVO.." + boardVO);
+
+        ResponseEntity<String> entity = null;
+        try {
+            boardService.modify(boardVO);
+            entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return entity;
+    }
+    
+    
+    // 삭제
+    @DeleteMapping("/board/{bid}")
+    public ResponseEntity<String> restDelete(@PathVariable("bid") int bid) {
+
+        log.info("restDelete()..");
+        log.info("bid.." + bid);
+
+        ResponseEntity<String> entity = null;
+        try {
+            
+            int rn = boardService.remove(bid);
+            
+            
+            log.info("delete result:"+rn);
+            //삭제가 성공하면 성공 상태메세지 지정 
+            entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //삭제가 실패하면 실패 상태메세지 지정
+            entity = new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return entity;
+    }
+ 
 }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
